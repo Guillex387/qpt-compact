@@ -5,7 +5,14 @@ This is a command line tool for compress and decompress, files and folders, usin
 > Type `compactor -h` or `--help`
 
 ## Executable
-Download the executable for [windows](https://clck.ru/WTfQz) **version 1.0.0**.
+Download the executable for [windows x64/x86](https://clck.ru/WUdvX) and [linux x64/x86](https://clck.ru/WUdnm) **version 1.0.0**.
+> In linux for execute this, you need the executable permission, this command only needs to be used once.
+>
+> `$ chmod +x ./compactor`
+>
+> And then you can use the app.
+>
+> `$ ./compactor -h`
 
 ## Development
 This tool is written in [dart](https://dart.dev) with help of the package manager, [pub](https://pub.dev), of dart for donwload the necesary libraries for the app.
