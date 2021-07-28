@@ -3,10 +3,10 @@
 ## Description and use
 This is a command line tool for compress and decompress, files and folders.
 Use a lossless compression.
-> Type `command -h` or `--help`
+> Type `compactor -h` or `--help`
 
 ## Executable
-Download the executable for [windows]() **version 1.0.0**.
+Download the executable for [windows](https://clck.ru/WTfQz) **version 1.0.0**.
 
 ## Development
 This tool is written in [dart](https://dart.dev) with help of the package manager, [pub](https://pub.dev), of dart for donwload the necesary libraries for the app.
