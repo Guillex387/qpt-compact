@@ -1,0 +1,12 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "qpt-compact",
+            "request": "launch",
+            "type": "dart",
+            "program": "bin/qpt_compact.dart",
+            "args": []
+        }
+    ]
+}
