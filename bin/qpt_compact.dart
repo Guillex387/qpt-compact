@@ -4,12 +4,14 @@ import 'package:colorize/colorize.dart' as colr;
 import 'package:args/args.dart';
 
 const helpMsg = 'type "compactor <-h | --help>" for the help message\n\n' +
-    '"compactor <command> <options> <value>":\n\n' +
+    '"compactor <command> <options> <values>":\n\n' +
     'Commands:\n' +
-    '\tcompact -> Compact the input file or folder indicated in the value\n' +
-    '\t\toptions -> -o or --output <file>\n' +
-    '\tdecompact -> Decompact the input file or folder indicated in the value';
-const versionMsg = 'qpt-compact 1.0.0';
+    '\tcompact -> Compact the input files and folders indicated in the values\n' +
+    '\t\toptions -> -o or --output <file> and --compress or --no-compress\n' +
+    '\tdecompact -> Decompact the input files and folders indicated in the values\n' +
+    '\t\toptions -> -o or --output <folder>';
+
+const versionMsg = 'qpt-compact 1.1.0';
 
 ArgParser createParser() {
   var parser = ArgParser();
@@ -17,7 +19,9 @@ ArgParser createParser() {
   parser.addFlag('version', abbr: 'v', negatable: false);
   var compCommand = ArgParser();
   var dcompCommand = ArgParser();
+  compCommand.addFlag('compress', defaultsTo: true);
   compCommand.addOption('output', abbr: 'o');
+  dcompCommand.addOption('output', abbr: 'o');
   parser.addCommand('compact', compCommand);
   parser.addCommand('decompact', dcompCommand);
   return parser;
@@ -40,7 +44,11 @@ void displayError(String msg) {
 }
 
 void main(List<String> arguments) async {
-  var loader = qpt_compact.Loader();
+  if (arguments.length == 0) {
+    stdout.writeln(helpMsg);
+    exit(1);
+  }
+  var loader = qpt_compact.Utils.Loader();
   try {
     var parser = createParser();
     var results = parser.parse(arguments);
@@ -52,44 +60,39 @@ void main(List<String> arguments) async {
       exit(0);
     }
     ArgResults? command = results.command;
-    if (command == null || command.rest.length != 1) {
+    if (command == null || command.rest.length == 0) {
       displayError('Args error');
       exit(1);
     }
     bool compactCommand = (command.name == 'compact');
-    var link = Link(command.rest[0].replaceAll('"', ''));
+    var link = Link(command.rest[0].replaceAll('"', '')).absolute;
     var stopwatch = Stopwatch();
-    bool file = link.statSync().type == FileSystemEntityType.file;
     stopwatch.start();
     await loader.start();
+    String? output = command['output'];
     String outpath;
     if (compactCommand) {
-      String? output = command['output'];
-      outpath = file
-          ? qpt_compact.FileCompactor.compress(link.path, output)
-          : qpt_compact.FolderCompactor.compress(link.path, output);
+      bool? compress = command['compress'];
+      outpath = qpt_compact.Compactor.compress(command.rest, output, compress);
     } else {
-      outpath = qpt_compact.Decompactor.decompress(link.path);
+      outpath = qpt_compact.Decompactor.decompress(link.path, output);
     }
     stopwatch.stop();
     double elapsed = stopwatch.elapsed.inMilliseconds / 1000;
-    loader.kill();
-    if (compactCommand) {
-      displaySuccess(
-          '${(file ? 'File' : 'Folder')} compressed at \'$outpath\' in ${elapsed}s');
-    } else {
-      displaySuccess('Decompressed at \'$outpath\' in ${elapsed}s');
-    }
+    await loader.kill();
+    displaySuccess(
+      '${(compactCommand ? 'Compressed' : 'Decompressed')} at \'$outpath\' in ${elapsed}s',
+    );
   } on qpt_compact.CompactorError catch (e) {
-    loader.kill();
+    await loader.kill();
     displayError(e.message);
     exit(1);
   } on ArgParserException catch (_) {
-    loader.kill();
+    await loader.kill();
     displayError('Args error');
     exit(1);
   } catch (_) {
-    loader.kill();
+    await loader.kill();
     displayError('Unknow error');
     exit(1);
   }
