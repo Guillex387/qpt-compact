@@ -5,7 +5,7 @@ This is a command line tool for compress and decompress, files and folders, usin
 > Type `compactor -h` or `--help`
 
 ## Executable
-Download the executable for [windows x64](https://mega.nz/file/JO42TT6Z#emhzwaQAL17Hk0CO9lbI8qJaouRBJuxzGmYEkzGSXW4) and [linux x64](https://mega.nz/file/kTonGSjB#jclDjOYXMMzIj523hUbuDJN-Qy6OYSS6mrGl3OiI_QY) **last version**.
+Download the executable for [windows x64](https://github.com/Guillex387/qpt-compact/releases/download/1.1.0/compactor-win-v1.1.0-x64.zip) and [linux x64](https://github.com/Guillex387/qpt-compact/releases/download/1.1.0/compactor-linux-v1.1.0-x64.zip) **last version**.
 > In linux for execute this, you need the executable permission, this command only needs to be used once.
 >
 > `$ chmod +x ./compactor`
