@@ -15,9 +15,9 @@ Download the executable for [windows x64](https://github.com/Guillex387/qpt-comp
 > `$ ./compactor -h`
 
 ## Development
-This tool is written in [dart](https://dart.dev) with help of the package manager, [pub](https://pub.dev), of dart for donwload the necesary libraries for the app.
-For compressing the files and folders I use the [bzip2 encoder](https://en.wikipedia.org/wiki/Bzip2), in case you don't like use the compressor put this flag `--no-compress`, you will find all commands structures in the help message.
+This tool is written in [dart](https://dart.dev) with help of the package manager [pub](https://pub.dev), for donwload the necesary libraries for the app.
+For compressing the files and folders I use the [bzip2 encoder](https://en.wikipedia.org/wiki/Bzip2), in case that you don't like use the compressor put this flag `--no-compress`, you will find all commands structures in the help message.
 
-I save the info in a header in json string, the structure of this is a tree, the folder object have a list of childs that can be other folder or a file, the file object will save her location of content of her in a [base64](https://en.wikipedia.org/wiki/Base64) string with a constant length of 24 characters that indicates the byteoffset and the length, and this header has a attribute called *compressed* which is a boolean that indicates if the file contents have a bzip enconding or not.
+I save the info in a json header, the structure of this is a tree, the folder object have a list of childs that can be a folder or a file, the file object will save her location of its content in a [base64](https://en.wikipedia.org/wiki/Base64) string with a constant length of 24 characters, that indicates the byteoffset and the length, and this header has a attribute called *compressed*, which is a boolean that indicates if the file contents have the bzip enconding or not.
 
-For read the file, at the beginning of the file you will find a binary unsinged int of 64 bit that indicate the length of the json header, for the location of the file divide the string in two, parse to byteArray and to Uint64, then you have two numbers left, the first indicate the byteoffset and the other the length of file. Check if the contents of the files needs a bzip2 decoding with the *compressed* attribute of the header.
+For read the file, at the beginning you will find a binary unsinged int of 64 bit that indicate the length of the json header, for the location of the file, divide the string in two, parse to byteArray and to Uint64, then you have two numbers left, the first indicate the byteoffset and the other the length of file. Check if the contents of the files needs a bzip2 decoding with the *compressed* attribute of the header.
