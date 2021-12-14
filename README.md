@@ -23,4 +23,4 @@ I save the info in a json header, the structure of this is a tree, the folder ob
 For read the file, at the beginning you will find a binary unsinged int of 64 bit that indicate the length of the json header, for the location of the file, divide the string in two, parse to byteArray and to Uint64, then you have two numbers left, the first indicate the byteoffset and the other the length of file. Check if the contents of the files needs a bzip2 decoding with the *compressed* attribute of the header.
 
 ## License
-Licensed under the [Apache License](https://github.com/Guillex387/qpt-compact/blob/master/LICENSE), Version 2.0. Copyright 2021 Guillex387
+Licensed under the [Apache License](https://github.com/Guillex387/qpt-compact/blob/master/LICENSE), Version 2.0. Copyright 2021 Guillex387.
